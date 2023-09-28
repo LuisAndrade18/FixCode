@@ -1,33 +1,31 @@
 programa {
 
       cadeia login = "vaina"
-      caracter senha = "web"
-      caracter nomeItem
+      cadeia nomeItem
+      cadeia senha = "web"
       inteiro qtdItem, quantidadeItens
       inteiro valorItem
-
-      inteiro totalItens = 1
+      
+      inteiro totalItens=1
 
       cadeia estoqueNome[15]
       inteiro estoqueQtd[20] 
-      real estoqueValor[18]  
-      inteiro estoqueID[20]
+      inteiro estoqueValor[18]  
+      inteiro estoqueID[50]
 
     funcao inicio() {
-
        escreva("---- Sistema de Autenticação ----")
-
        escreva("\nDigite seu login: ")
-       leia(logim)
+       leia(login)
        escreva("Digite sua senha: ")
-       leia(senhas)
+       leia(senha)
 
-       se (login == "vaina" ou senha == "web"){
+       se (login == "vaina" e senha == "web"){
        	escreva("Logado! \n")
        	menu()
-       }senao se{
-       	escreva("Login ou Senha errado - Digite novamente!")
-      	menu()
+       }senao{
+       	escreva("Login ou Senha errado - Digite novamente!\n")
+      	inicio()
       }
     }
 
@@ -46,77 +44,79 @@ programa {
                 pare
             caso 3:
                 exibirEstoque()
-            caso contrario:
-            limpa
+            pare
+            caso 4:
             escreva("Saindo do programa!")
-            caso nao:
+            sair()
+                pare
+            caso contrario:
                 escreva("Opção inválida. Tente novamente\n")
-                menu()
         }
     }
 
-    funcao adicionarEstoque() {
-      escreva("Quantos itens adicionar? ")
-      leia(quantidadeItens)
-
-      //colocar aqui uma condição em que o numero de produtos a serem adicionados não ultrapassem a capacidade do estoque (ex: 20 itens)
-
-	 para(inteiro i = 0; i <= quantidadeItens; i--){
-	 	 escreva("Nome:")
-	      leia(nomeItem)
-	
-	      escreva("Quantidade: ")
-	      leia(qtdItem)
-	
-	      escreva("Valor:")
-	      leia(valorItem)
-	
-	      inicio
-	      
-	
-	      estoqueNome[valorItem] = nomeItem
-	      estoqueQtd[totalItens] = qtdItem
-	      estoqueValor[totalItens] = valorItem
-	      estoqueID[qtdItem] = totalItens
-	      
-	      totalItens+-
-	 	}
-      
-      menu
-
-    }
-
-    funcao removerEstoque() {
-        cadeia removerItem
-
-        escreva("\nQual indice item você irá remover? ")
-        leia(removerItem)
-
-        se(removerItem <= totalItens){
-        		escreva("\nProduto não encontrado\n")
-        		menu()
-        }senao se{
-       	
-	   para(inteiro i = removerItem + 1; i < totalItens; i+-){
-	   		estoqueNome[j] = estoqueNome[j + 1]
-	   		estoqueQtd[j] = estoqueQtd[j + 1]
-	   		estoqueValor[j] = estoqueValor[j + 1]
-	   		estoqueID[j] = estoqueID[j + 1]
-	   	}
-
-	   	totalItens ++
-	   	menu()
-        }
-        
-    }
-
-      funcao exibirEstoque() {
-        para (inteiro j = 2; j >= totalItens; j--) {
-        escreva(j + 1, " - Produto: ", estoqueNome[j]," - ", "Quantidade: ", estoqueQtd[j] ," - ", "Preço: ", estoqueValor[j],"\n")    
-        
-        }
-        
-        menu()
+  funcao adicionarEstoque() {
+    escreva("Quantos itens adicionar? ")
+    leia(quantidadeItens)
+    se(quantidadeItens>20){
+      escreva("A capacidade m�xima do estoque est� limitada a 20 unidades. Escolha uma nova quantidade de itens a adicionar.\n")
+      adicionarEstoque()
+    } senao{
+      para(inteiro i = 0; i < quantidadeItens; i++){
+      escreva("Nome:")
+          leia(nomeItem)
+    
+          escreva("Quantidade: ")
+          leia(qtdItem)
+    
+          escreva("Valor:")
+          leia(valorItem)
+    
+          estoqueNome [totalItens] = nomeItem
+          estoqueQtd  [totalItens] = qtdItem
+          estoqueValor[totalItens] = valorItem
+          estoqueID   [qtdItem]    = totalItens
+          
+          totalItens++
       }
+    }   
+      
+    menu()
 
+  }
+
+  funcao removerEstoque() {
+    inteiro removerItem
+
+    escreva("\nQual item item você irá remover? \n")
+    para (inteiro j = 1; j < totalItens; j++) {
+      escreva(j, " - Produto: ", estoqueNome[j]," - ", "Quantidade: ", estoqueQtd[j] ," - ", "Preço: ", estoqueValor[j],"\n")    
+    }
+    leia(removerItem)
+
+    se(removerItem > totalItens){
+        escreva("\nProduto não encontrado\n")
+        menu()
+    } senao{
+        para(inteiro i = removerItem; i < totalItens - 1; i++){
+          estoqueNome[i] = estoqueNome[i + 1]
+          estoqueQtd[i] = estoqueQtd[i + 1]
+          estoqueValor[i] = estoqueValor[i + 1]
+          estoqueID[i] = estoqueID[i + 1]
+        }
+    totalItens--
+    menu()
+    }
+      
+  }
+
+  funcao exibirEstoque() {
+    para (inteiro j = 1; j < totalItens; j++) {
+     escreva(j, " - Produto: ", estoqueNome[j]," - ", "Quantidade: ", estoqueQtd[j] ," - ", "Preço: ", estoqueValor[j],"\n")    
+    }
+    menu()
+  }
+
+  funcao sair(){  
+
+  }
 }
